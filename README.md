@@ -34,6 +34,7 @@ It is designed as a learning project to understand backend development, database
 
 ## Project Structure
 
+```text
 flask_app/
 │
 ├── app/
@@ -51,7 +52,7 @@ flask_app/
 │
 ├── run.py
 └── README.md
-
+```
 
 ---
 
