@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+    <nav class="navbar">
+        <ul>
+            <a href="{{ url_for('customer.dashboard') }}">
+                <li>Dashboard</li>
+            </a>
+            <div class="line"></div>
+            <a href="{{ url_for('account.accounts') }}">
+                <li>Accounts</li>
+            </a>
+            <div class="line"></div>
+            <a href="{{ url_for('transaction.history') }}">
+                <li>Transactions</li>
+            </a>
+            <div class="line"></div>
+            <a href="{{ url_for('account.transfer') }}">
+                <li>Transfer</li>
+            </a>
+            <div class="line"></div>
+            <a href="{{ url_for('auth.logout') }}" id="button">
+                <li>Logout</li>
+            </a>
+        </ul>
+    </nav>
+</body>
+
+</html>

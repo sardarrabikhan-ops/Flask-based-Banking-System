@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+<form action="{{ url_for('account.open_account') }}" method="post" class="open-account-form">
+    <label for="acc_type">Select Account Type:</label>
+    <select name="acc_type" id="acc_type" required>
+        <option value="savings">Savings Account</option>
+        <option value="checking">Checking Account</option>
+        <option value="bussiness">Business Account</option>
+    </select>
+    <button type="submit">Open Account</button>
+</form>
+{% endblock %}

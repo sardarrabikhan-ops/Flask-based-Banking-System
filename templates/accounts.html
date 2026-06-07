@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}My Accounts{% endblock %}
+
+{% block content %}
+<div class="accounts-container">
+    <h2>My Accounts</h2>
+    <p>Here you can view all your accounts.</p>
+    {% for account in accounts %}
+    <div class="{% if account.account_id == session.get('current_account_id') %}active{% else %}account-card{% endif %}">
+        <strong>Customer ID:</strong>
+        <p> {{ account.customer_id }}</p>
+        <strong>Account ID:</strong>
+        <p> {{ account.account_id }}</p>
+        <strong>Account Type:</strong>
+        <p> {{ account.account_type }}</p>
+        <strong>Account Status:</strong>
+        <p> {{ account.status }}</p>
+        <strong>Account Balance:</strong>
+        <p> {{ account.balance }}</p>
+        <strong>Created Time:</strong>
+        <p> {{ account.timestamp | format_time }}</p>
+        {% if account.account_id == session.get("current_account_id") %}
+        <button disabled>This is your current account.</button>
+        {% endif %}
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,64 @@
+{% extends "auth_base.html" %}
+
+{% block title %}
+Sign Up | MM ARMS BANK
+{% endblock %}
+
+{% block content %}
+
+<main>
+    <div id="auth-card">
+        <section id="left-box">
+            <p id="bank-name">MM ARMS BANK</p>
+            <p id="subtitle">Your Trusted Digital Banking Partner</p>
+            <p id="signup-subtitle">
+                Please login to access your MM ARMS BANK account securely.
+                Our platform ensures your data is protected while
+                giving you smooth and reliable access to all your banking services.
+            </p>
+            <p class="content">Already have an account?</p>
+            <a href="{{url_for('auth.login')}}"><button class="btn" id="login-btn">Login</button></a>
+        </section>
+        <section id="right-box">
+            <p id="welcome-msg">Welcome to MM ARMS BANK</p>
+            <p>Create your account to get started with secure banking</p>
+            <form action="{{ url_for('auth.signup') }}" method="POST" class="signup-form">
+                <section class="inp-box">
+                    <input type="text" name="firstname" class="input" placeholder="First Name" required minlength="3"
+                        maxlength="15">
+                    {% if errors.firstname %}
+                    <p class="error-msg">{{ errors.firstname }}</p>
+                    {% endif %}
+                    <input type="text" name="lastname" class="input" placeholder="Last Name" required minlength="3"
+                        maxlength="15">
+                    {% if errors.lastname %}
+                    <p class="error-msg">{{ errors.lastname }}</p>
+                    {% endif %}
+                    <input type="email" name="email" class="input" placeholder="Email" required>
+                    {% if errors.email %}
+                    <p class="error-msg">{{ errors.email }}</p>
+                    {% endif %}
+                    <input type="tel" name="phone" class="input" placeholder="Phone number" required minlength="13" maxlength="13">
+                    {% if errors.phone %}
+                    <p class="error-msg">{{ errors.phone }}</p>
+                    {% endif %}
+                    <input type="password" name="password" class="input" placeholder="Password" required minlength="8"
+                        maxlength="18">
+                    {% if errors.password %}
+                    <p class="error-msg">{{ errors.password }}</p>
+                    {% endif %}
+                    <input type="password" name="confirm_password" class="input" placeholder="Confirm Password" required
+                        minlength="8" maxlength="18">
+                    {% if errors.confirm_password %}
+                    <p class="error-msg">{{ errors.confirm_password }}</p>
+                    {% endif %}
+                </section>
+                <div class="button">
+                    <button type="submit" class="btn" id="signup-btn">Sign Up</button>
+                </div>
+            </form>
+        </section>
+    </div>
+</main>
+
+{% endblock %}

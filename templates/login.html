@@ -1,0 +1,60 @@
+{% extends "auth_base.html" %}
+
+{% block title %}
+Login | MM ARMS BANK
+{% endblock %}
+
+{% block content %}
+<div id="auth-card">
+    <section id="left-box">
+        <p id="bank-name">MM ARMS BANK</p>
+        <p id="subtitle">Your Trusted Digital Banking Partner</p>
+        <p id="signup-subtitle">
+            Create your account to get started with secure banking.
+            Your information is protected with advanced security.
+            Sign up in seconds and take control of your finances.
+        </p>
+        <p class="content">Dont have an account?</p>
+        <a href="{{ url_for('auth.signup') }}" style="text-decoration: none;"><button class="btn" id="signup-btn">Sign
+                Up</button></a>
+        <a href="#" style="text-decoration: none;"><button class="btn" id="googlelink-btn">Continue with Google
+                <pre style="color:#4285F4; font-size:35px; font-weight:bold;"> G</pre>
+            </button></a>
+    </section>
+    <section id="right-box">
+        <p id="welcome-msg">Welcome to MM ARMS BANK</p>
+        <form action="{{ url_for('auth.login') }}" method="POST" class="login-form">
+            <section class="inp-box">
+                
+                <input type="email" name="email" class="input" placeholder=" Email" required>
+                {% if errors.email %}
+                <p class="error-msg">{{ errors.email }}</p>
+                {% endif %}
+                
+                <input type="password" name="password" class="input" placeholder=" Password" required>
+                {% if errors.password %}
+                <p class="error-msg">{{ errors.password }}</p>
+                {% endif %}
+                
+                <div class="remember-me">
+                <input type="checkbox" name="remember-me" id="remember-me" >
+                <label for="remember-me">Remember Me</label>
+                </div>
+                
+                {% if errors.user_existance %}
+                <p class="error-msg">{{ errors.user_existance }}</p>
+                {% endif %}
+                
+                {% if errors.account_locked %}
+                <p class="error-msg">{{ errors.account_locked }}</p>
+                {% endif %}
+            </section>
+            <div class="button">
+                <a href="#" id="forgot-pas">Forgot Password?</a>
+                <button type="submit" class="btn" id="login-btn">Login</button>
+            </div>
+        </form>
+    </section>
+</div>
+
+{% endblock %}

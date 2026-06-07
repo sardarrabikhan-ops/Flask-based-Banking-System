@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}Deposit Money{% endblock %}
+
+{% block content %}
+
+<form action="{{ url_for('account.withdraw') }}" method="post">
+    <div class="withdraw-form">
+        <h2>Withdraw Money</h2>
+        <div class="input-group">
+            <input type="number" id="amount" name="amount" min="0.01" step="0.01" placeholder="Amount" required>
+            {% if errors.amount %}
+            <p class="error-msg">{{ errors.amount }}</p>
+            {% endif %}
+        </div>
+        <button type="submit">Withdraw</button>
+    </div>
+</form>
+
+
+{% endblock %}

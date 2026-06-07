@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<section class="dashboard">
+
+    <div class="welcome">
+        <h3>Hello, {{ username }}!</h3>
+        <h4>You are most welcome to MM ARMS BANK</h4>
+        <p>Your Trusted Digital Banking Partner</p>
+    </div>
+
+    <div class="actions">
+        <ul>
+            <a href="{{ url_for('account.accounts') }}">
+                <li>View Accounts</li>
+            </a>
+            <a href="{{ url_for('account.select_account') }}">
+                <li>Switch Account</li>
+            </a>
+            <a href="{{ url_for('transaction.history') }}">
+                <li>View Transactions</li>
+            </a>
+            <a href="{{ url_for('account.transfer') }}">
+                <li>Transfer Money</li>
+            </a>
+            <a href="{{ url_for('account.deposit') }}">
+                <li>Deposit Money</li>
+            </a>
+            <a href="{{ url_for('account.withdraw') }}">
+                <li>Withdraw Money</li>
+            </a>
+            <a href="{{ url_for('auth.logout') }}">
+                <li>Logout</li>
+            </a>
+            <a href="{{ url_for('account.open_account') }}">
+                <li>Open Account</li>
+            </a>
+
+            {% with messages = get_flashed_messages() %}
+            {% for msg in messages %}
+            <div class="success-msg">
+                {{ msg }}<br>
+            </div>
+            {% endfor %}
+            {% endwith %}
+        </ul>
+    </div>
+</section>
+{% endblock %}
