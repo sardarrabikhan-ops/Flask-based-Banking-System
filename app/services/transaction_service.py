@@ -32,23 +32,26 @@ def record_transfer(conn, source_account_id, target_account_id, amount):
         credit
     )
 
-def deposit(target_account_id, amount):
+def deposit(source_account_id, amount):
     conn = None
 
     try:
         conn = get_db_connection()
 
-        target_account = get_account_by_account_id(conn, target_account_id)
+        source_account = get_account_by_account_id(conn, source_account_id)
 
         errors = {}
-
+        
+        if not source_account:
+            errors["source_account"] = "html will handle it."
+        
         if amount <= 0:
             errors["amount"] = "Amount must be greater than zero."
         
         elif amount > 100000:
             errors["amount"] = "You cannot deposit more than 100 thousand."
         
-        elif target_account.status == "closed":
+        elif source_account.status == "closed":
             errors["account_status"] = "This account was closed so you cannot deposit money."
         
         if errors:
@@ -57,14 +60,14 @@ def deposit(target_account_id, amount):
                 "data": errors
             }
         
-        target_account.deposit(amount)
-        record_transaction(conn, "Credit", target_account_id, amount)
+        source_account.deposit(amount)
+        record_transaction(conn, "Credit", source_account_id, amount)
 
         conn.commit()
 
         return {
             "success": True,
-            "data": {"new_balance": target_account.balance, "msg": f"Successfully deposited ${amount:.2f} to your account!"}
+            "data": {"new_balance": source_account.balance, "msg": f"Successfully deposited ${amount:.2f} to your account!"}
         }
     
     except Exception as e:
@@ -85,6 +88,10 @@ def withdraw(source_account_id, amount):
         source_account = get_account_by_account_id(conn, source_account_id)
 
         errors = {}
+        
+        if not source_account:
+            errors["source_account"] = "html will handle it."
+        
 
         ok, result = valid_amount(amount, source_account.balance)
         if not ok:
@@ -125,6 +132,9 @@ def transfer(source_account_id, target_account_id, amount):
         target_account = get_account_by_account_id(conn, target_account_id)
 
         errors = {}
+        
+        if not source_account:
+            errors["source_account"] = "html will handle it."
         
         if not target_account:
             errors["target_account"] = "Target account not found."

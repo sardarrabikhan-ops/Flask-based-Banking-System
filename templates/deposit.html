@@ -13,6 +13,15 @@
             <p class="error-msg">{{ errors.amount }}</p>
             {% endif %}
         </div>
+
+        {% if errors.source_account %}
+        <p class="error-msg">You have not selcted account. Please <a href="{{ url_for('account.select_account') }}">select an account</a> first.</p>
+        {% endif %}
+
+        {% if errors.source_account_status %}
+        <p class="error-msg">{{ errors.source_account_status }}</p>
+        {% endif %}
+
         <button type="submit">Deposit</button>
     </div>
 </form>
