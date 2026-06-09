@@ -3,6 +3,9 @@
 {% block title %}Dashboard{% endblock %}
 
 {% block content %}
+<h1 class="bank-name">MM ARMS BANK</h1>
+<img src="{{ url_for('static', filename='images/logo.png') }}" alt="LOGO" id="logo">
+
 <section class="dashboard">
 
     <div class="welcome">
@@ -13,39 +16,52 @@
 
     <div class="actions">
         <ul>
-            <a href="{{ url_for('account.accounts') }}">
-                <li>View Accounts</li>
-            </a>
-            <a href="{{ url_for('account.select_account') }}">
-                <li>Switch Account</li>
-            </a>
-            <a href="{{ url_for('transaction.history') }}">
-                <li>View Transactions</li>
-            </a>
-            <a href="{{ url_for('account.transfer') }}">
-                <li>Transfer Money</li>
-            </a>
-            <a href="{{ url_for('account.deposit') }}">
-                <li>Deposit Money</li>
-            </a>
-            <a href="{{ url_for('account.withdraw') }}">
-                <li>Withdraw Money</li>
-            </a>
-            <a href="{{ url_for('auth.logout') }}">
-                <li>Logout</li>
-            </a>
-            <a href="{{ url_for('account.open_account') }}">
-                <li>Open Account</li>
-            </a>
 
-            {% with messages = get_flashed_messages() %}
-            {% for msg in messages %}
-            <div class="success-msg">
-                {{ msg }}<br>
-            </div>
-            {% endfor %}
-            {% endwith %}
+            <li>
+                <a href="{{ url_for('account.accounts') }}">View Accounts</a>
+            </li>
+
+            <li>
+                <a href="{{ url_for('account.select_account') }}">Switch Account</a>
+            </li>
+
+            <li>
+                <a href="{{ url_for('transaction.history') }}">View Transactions</a>
+            </li>
+
+            <li>
+                <a href="{{ url_for('account.transfer') }}">Transfer Money</a>
+            </li>
+
         </ul>
+
+        <ul>
+
+            <li>
+                <a href="{{ url_for('account.deposit') }}">Deposit Money</a>
+            </li>
+
+            <li>
+                <a href="{{ url_for('account.withdraw') }}">Withdraw Money</a>
+            </li>
+
+            <li>
+                <a href="{{ url_for('account.open_account') }}">Open Account</a>
+            </li>
+
+            <li>
+                <a href="{{ url_for('auth.logout') }}">Logout</a>
+            </li>
+
+        </ul>
+
+        {% with messages = get_flashed_messages() %}
+        {% for msg in messages %}
+        <div class="success-msg">
+            {{ msg }}<br>
+        </div>
+        {% endfor %}
+        {% endwith %}
     </div>
 </section>
 {% endblock %}

@@ -23,7 +23,7 @@ def create_app():
     @app.template_filter("format_time")
     def format_time(value):
         dt = datetime.fromtimestamp(value)
-        return dt.strftime("%d %b %Y %I:%M:%S %p")
+        return dt.strftime("%d %b %Y, %I:%M:%S %p")
 
     app.register_blueprint(auth_bp)
     app.register_blueprint(account_bp)

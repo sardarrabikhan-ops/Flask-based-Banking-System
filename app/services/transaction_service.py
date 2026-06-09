@@ -51,8 +51,10 @@ def deposit(source_account_id, amount):
         elif amount > 100000:
             errors["amount"] = "You cannot deposit more than 100 thousand."
         
-        elif source_account.status == "closed":
-            errors["account_status"] = "This account was closed so you cannot deposit money."
+        if source_account:
+            
+            if source_account.status == "closed":
+                errors["account_status"] = "This account was closed so you cannot deposit money."
         
         if errors:
             return {
@@ -92,11 +94,11 @@ def withdraw(source_account_id, amount):
         if not source_account:
             errors["source_account"] = "html will handle it."
         
-
-        ok, result = valid_amount(amount, source_account.balance)
-        if not ok:
-            errors[result["field"]] = result["msg"]
-        
+        if source_account:
+            ok, result = valid_amount(amount, source_account.balance)
+            if not ok:
+                errors[result["field"]] = result["msg"]
+            
         if errors:
             return {
                 "success": False,
@@ -138,20 +140,22 @@ def transfer(source_account_id, target_account_id, amount):
         
         if not target_account:
             errors["target_account"] = "Target account not found."
+        
+        if source_account and target_account:
 
-        elif target_account_id == source_account_id:
-            errors["account_mismatch"] = "You cannot tranfer money to same account."
-        
-        elif source_account.status != "active":
-            errors["source_account_status"] = "Source account is not active!"
-        
-        elif target_account.status != "active":
-            errors["target_account_status"] = "Target account is not active!"
-        
-        ok, result = valid_amount(amount, source_account.balance)
-        if not ok:
-            errors[result["field"]] = result["msg"]
-        
+            if int(target_account_id) == int(source_account_id):
+                errors["account_mismatch"] = "You cannot tranfer money to same account."
+            
+            if source_account.status != "active":
+                errors["source_account_status"] = "Source account is not active!"
+            
+            if target_account.status != "active":
+                errors["target_account_status"] = "Target account is not active!"
+            
+            ok, result = valid_amount(amount, source_account.balance)
+            if not ok:
+                errors[result["field"]] = result["msg"]
+            
         if errors:
             return {
                 "success": False,

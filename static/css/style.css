@@ -257,24 +257,25 @@ a {
     justify-content: space-around;
 }
 
-.navbar ul a li {
-    list-style: none;
-}
 
-.navbar ul a li {
-    color: blue;
-    text-decoration: none;
-}
-
-.navbar ul a:hover {
+.navbar ul li a:hover {
     transform: scale(1.1);
-    color: #666;
 }
 
-.navbar ul a  {
-    background-color: transparent;
+.navbar ul li {
+    list-style: none;
     height: inherit;
     width: 20%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.navbar ul li a {
+    color: blue;
+    text-decoration: none;
+    height: inherit;
+    width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -475,14 +476,30 @@ main {
 .dashboard {
     display: flex;
     flex-direction: column;
-    align-items: center;
     width: 80vw;
-    margin: 280px auto;
-    padding: 150px 200px;
+    margin: 0 auto 150px;
+    padding: 150px;
     background-color: rgba(255, 255, 255, 0.9);
     border: 1px solid #ccc;
     border-radius: 10px;
     gap: 100px;
+}
+
+.bank-name {
+    color: #111;
+    font-size: 70px;
+    font-weight: 600;
+    margin-top: 150px;
+    text-align: center;
+}
+
+#logo {
+    display: block;
+    height: 200px;
+    width: 200px;
+    margin: 50px auto 50px;
+    border: 1px solid rgb(56, 55, 55);
+    border-radius: 5px;
 }
 
 .dashboard .welcome {
@@ -492,23 +509,47 @@ main {
     text-align: center;
 }
 
+.dashboard .actions {
+    display: flex;
+    justify-content: space-around;
+}
+
 .dashboard .actions ul {
     display: flex;
     flex-direction: column;
-    gap: 30px;
+    gap: 50px;
 }
 
-.dashboard .actions ul a li {
+.dashboard .actions ul li {
     list-style: none;
     padding: 10px 20px;
-    height: 50px;
+    height: 60px;
     width: 300px;
-    border: 1px solid #ccc;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #a5a3a3;
     border-radius: 5px;
-    background-color: rgba(97, 94, 94, 0.1);
-    color: #333;
-    font-size: 18px;
+    background-color: rgba(97, 94, 94, 0.2);
+    font-size: 24px;
     text-align: center;
+}
+
+.dashboard .actions ul li {
+    align-self: flex-start;
+}
+
+.dashboard .actions ul li:nth-child(even) {
+    align-self: flex-end;
+}
+
+.dashboard ul li a {
+    height: inherit;
+    width: inherit;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .dashboard .success-msg {
