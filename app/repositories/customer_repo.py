@@ -1,6 +1,8 @@
 #repositories/customer_repo.py
 
 from app.models import Customer
+from app.models import Account
+from app.models import Transaction
 from app.utils.security import hash_password
 
 def create_customer(conn, first_name, last_name, email, password, phone):
@@ -106,3 +108,31 @@ def reset_failed_attempts_and_lock_until(conn, customer_id):
     row = cursor.execute('SELECT * FROM customers WHERE customer_id = ?', (customer_id,)).fetchone()
     
     return Customer.from_row(row) if row else None
+
+def profile_info(conn, customer_id):
+    cursor = conn.cursor()
+
+    row1 = cursor.execute("SELECT * FROM customers WHERE customer_id = ?", (customer_id,)).fetchone()
+
+    customer = Customer.from_row(row1) if row1 else None
+
+    row2 = cursor.execute("SELECT * FROM accounts WHERE customer_id = ?", (customer_id,)).fetchall()
+
+    accounts = [Account.from_row(row) for row in row2]
+
+    row3 = cursor.execute('''
+        SELECT *
+        FROM transactions t
+        JOIN accounts a ON t.account_id = a.account_id
+        WHERE a.customer_id = ?
+        ORDER BY t.transaction_id DESC
+        LIMIT 5
+    ''', (customer_id,)).fetchall()
+
+    transactions = [Transaction.from_row(row) for row in row3]
+
+    return {
+        "customer": customer,
+        "accounts": accounts,
+        "transactions": transactions
+    }

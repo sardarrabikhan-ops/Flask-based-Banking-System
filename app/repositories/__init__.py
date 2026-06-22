@@ -8,7 +8,8 @@ from .customer_repo import (
     update_failed_attempts,
     reset_failed_attempts_and_lock_until,
     email_exists, 
-    phone_exists
+    phone_exists,
+    profile_info
     )
 from .account_repo import (
     create_account, 

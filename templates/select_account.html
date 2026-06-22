@@ -9,7 +9,7 @@
     {% endfor %}
     {% else %}
     {% for account in accounts %}
-    <div class="{% if account.account_id == session.get('current_account_id') %}active{% else %}account-card{% endif %}">
+    <div class="account-card{% if account.account_id == session.get('current_account_id') %} active{% endif %}">
         <strong>Customer ID:</strong>
         <p> {{ account.customer_id }}</p>
         <strong>Account ID:</strong>

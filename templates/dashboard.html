@@ -4,7 +4,6 @@
 
 {% block content %}
 <h1 class="bank-name">MM ARMS BANK</h1>
-<img src="{{ url_for('static', filename='images/logo.png') }}" alt="LOGO" id="logo">
 
 <section class="dashboard">
 
@@ -18,15 +17,11 @@
         <ul>
 
             <li>
-                <a href="{{ url_for('account.accounts') }}">View Accounts</a>
+                <a href="{{ url_for('account.accounts') }}">Accounts Dashboard</a>
             </li>
 
             <li>
-                <a href="{{ url_for('account.select_account') }}">Switch Account</a>
-            </li>
-
-            <li>
-                <a href="{{ url_for('transaction.history') }}">View Transactions</a>
+                <a href="{{ url_for('transaction.history') }}">Transactions History</a>
             </li>
 
             <li>
@@ -55,13 +50,18 @@
 
         </ul>
 
-        {% with messages = get_flashed_messages() %}
         {% for msg in messages %}
-        <div class="success-msg">
-            {{ msg }}<br>
+        <div class="flash-msg">
+            <div class="cross">
+                <i class="fa-solid fa-xmark"></i>
+            </div>
+            {% with messages = get_flashed_messages() %}
+            <div class="success-msg">
+                {{ msg }}
+            </div>
+            {% endwith %}
         </div>
         {% endfor %}
-        {% endwith %}
     </div>
 </section>
 {% endblock %}

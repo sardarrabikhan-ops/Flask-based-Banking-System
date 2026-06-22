@@ -1,9 +1,10 @@
 #service/account_service.py
 
-from app.repositories import create_account, get_account_by_account_id, get_customer_by_customer_id, get_accounts_by_customer_id
+from app.repositories import create_account, get_account_by_account_id, get_customer_by_customer_id, get_accounts_by_customer_id, change_account_status
 from database import get_db_connection
+from constants import Status, AccountType
 
-def open_account(customer_id, acc_type="savings"):
+def open_account(customer_id, acc_type=AccountType.SAVINGS.value):
     conn = None
     try:
         conn = get_db_connection()
@@ -19,6 +20,38 @@ def open_account(customer_id, acc_type="savings"):
     finally:
         if conn:
             conn.close()
+
+
+def close_account(account_id):
+    conn = None
+    try:
+        conn = get_db_connection()
+
+        errors = {}
+
+        account = get_account_by_account_id(conn, account_id)
+
+        if not account:
+            errors["account_existance"] = "Account Not found."
+        if account.balance != 0:
+            errors["balance_existance"] = "The account caontain some balance, trnasfer/withdraw maoney to close this account."
+
+        if errors:
+            return {"success": False, "data": errors}
+
+        
+        account = change_account_status(conn, account_id, Status.CLOSED.value)
+        conn.commit()
+        return {"success": True, "data": {"account": account}}
+    
+    except Exception as e:
+        if conn:
+            conn.rollback()
+        raise e
+    finally:
+        if conn:
+            conn.close()
+
 
 def get_accounts_for_customer(customer_id):
     conn = None
@@ -38,7 +71,7 @@ def get_accounts_for_customer(customer_id):
             errors["accounts"] = "No accounts found for this customer."
             return {"success": False, "data": errors}
         
-        if customer.status != "active":
+        if customer.status != Status.ACTIVE.value:
             errors["customer"] = "Customer account is currently not active."
             return {"success": False, "data": errors}
         
@@ -66,7 +99,7 @@ def get_account_by_id(account_id):
             errors["account"] = "Account not found."
             return {"success": False, "data": errors}
         
-        if account.status != "active":
+        if account.status != Status.ACTIVE.value:
             errors["account"] = "This account is currently not active."
             return {"success": False, "data": errors}
         

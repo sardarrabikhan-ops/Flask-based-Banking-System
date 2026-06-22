@@ -1,11 +1,13 @@
 #models/account.py
 
+from constants import Status, AccountType
+
 class Account:
     def __init__(
             self, 
             customer_id, 
-            account_type="savings", 
-            status="active", 
+            account_type=AccountType.SAVINGS.value, 
+            status=Status.ACTIVE.value, 
             balance=0, 
             timestamp=None, 
             account_id=None

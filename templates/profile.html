@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block title %}Profile{% endblock %}
+{% block content %}
+{% if errors %}
+{% for error in errors %}
+{{ error }}
+{% endfor %}
+{% else %}
+<div class="profile-container">
+    <h2>Profile Information</h2>
+    <div class="info">
+        <strong>Username:</strong>
+        <p>{{ session.fullname }}</p>
+        <strong>Email:</strong>
+        <p>{{ data.customer.email }}</p>
+        <strong>Phone Number:</strong>
+        <p>{{ data.customer.phone }}</p>
+    </div>
+    
+    <div class="hor-line"></div>
+    
+    <div class="accounts">
+        <h3>Accounts</h3>
+        {% for acc in data.accounts %}
+        {% if acc.status != "closed" %}
+        <div class="account-info">
+            <strong>Account ID :</strong>
+            <p>{{ acc.account_id }}</p>
+            <strong>Balance :</strong>
+            <p>${{ "{:,.2f}".format(acc.balance) }}</p>
+            <strong>Account Type :</strong>
+            <p>{{ acc.account_type }}</p>
+        </div>
+        {% endif %}
+        {% endfor %}
+    </div>
+    
+    <div class="hor-line"></div>
+    
+    <div class="transactions">
+        <h3>Recent Transactions</h3>
+        {% for t in data.transactions %}
+        <div class="transaction-info">
+            <strong>Date :</strong>
+            <p>{{ t.timestamp | format_time }}</p>
+            <strong>Transaction Type :</strong>
+            <p>{{ t.transaction_type }}</p>
+            <strong>Amount :</strong>
+            <p>{{ t.amount }}</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endif %}
+{% endblock %}

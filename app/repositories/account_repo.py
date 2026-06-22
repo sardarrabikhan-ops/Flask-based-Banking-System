@@ -1,8 +1,9 @@
 #repositories/account_repo.py
 
 from app.models import Account
+from constants import AccountType
 
-def create_account(conn, customer_id, account_type="savings"):
+def create_account(conn, customer_id, account_type=AccountType.SAVINGS.value):
     cursor = conn.cursor()
     
     cursor.execute('''
@@ -13,7 +14,7 @@ def create_account(conn, customer_id, account_type="savings"):
     account_id = cursor.lastrowid
     row = cursor.execute('SELECT * FROM accounts WHERE account_id = ?', (account_id,)).fetchone()
     
-    return Account.from_row(row)
+    return Account.from_row(row) if row else None
 
 
 def change_account_status(conn, account_id, account_state):
@@ -27,7 +28,7 @@ def change_account_status(conn, account_id, account_state):
     
     row = cursor.execute('SELECT * FROM accounts WHERE account_id = ?', (account_id,)).fetchone()
     
-    return Account.from_row(row)
+    return Account.from_row(row) if row else None
 
 def get_account_by_account_id(conn, account_id):
     cursor = conn.cursor()

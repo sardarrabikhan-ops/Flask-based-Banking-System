@@ -1,5 +1,7 @@
 #models/customer.py
 
+from constants import Status
+
 class Customer:
     def __init__(
             self, 
@@ -8,7 +10,7 @@ class Customer:
             email, 
             password_hash, 
             phone, 
-            status="active",
+            status=Status.ACTIVE.value,
             failed_attempts=0, 
             lock_until=None, 
             timestamp=None, 

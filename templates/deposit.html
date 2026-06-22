@@ -8,14 +8,16 @@
     <div class="deposit-form">
         <h2>Deposit Money</h2>
         <div class="input-group">
-            <input type="number" id="amount" name="amount" min="0.01" step="0.01" placeholder="Amount" required>
+            <input type="number" class="amount" name="amount" min="0.01" step="0.01" placeholder="Amount" required>
+            <p class="error-msg amount-error"></p>
             {% if errors.amount %}
             <p class="error-msg">{{ errors.amount }}</p>
             {% endif %}
         </div>
 
         {% if errors.source_account %}
-        <p class="error-msg">You have not selcted account. Please <a href="{{ url_for('account.select_account') }}">select an account</a> first.</p>
+        <p class="error-msg">You have not selcted account. Please <a href="{{ url_for('account.accounts') }}">select an
+                account</a> first.</p>
         {% endif %}
 
         {% if errors.source_account_status %}

@@ -29,6 +29,7 @@ It is designed as a learning project to understand backend development, database
 - SQLite
 - HTML
 - CSS
+- JavaScript
 
 ---
 
@@ -51,6 +52,7 @@ flask_app/
 ├── templates/
 │
 ├── run.py
+├── constants.py
 └── README.md
 ```
 

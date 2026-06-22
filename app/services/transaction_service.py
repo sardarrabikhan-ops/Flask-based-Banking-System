@@ -3,6 +3,7 @@
 from app.repositories import get_account_by_account_id, get_accounts_by_customer_id, get_transaction_history, create_transaction
 from app.utils.validators import valid_amount
 from database import get_db_connection
+from constants import Status, TransactionType
 
 def record_transaction(conn, transaction_type, account_id, amount):
     transaction = create_transaction(
@@ -17,13 +18,13 @@ def record_transfer(conn, source_account_id, target_account_id, amount):
 
     debit = record_transaction(
         conn,
-        transaction_type="Debit",
+        transaction_type=TransactionType.DEBIT.value,
         account_id=source_account_id,
         amount=amount
     )
     credit = record_transaction(
         conn,
-        transaction_type="Credit",
+        transaction_type=TransactionType.CREDIT.value,
         account_id=target_account_id,
         amount=amount
     )
@@ -53,7 +54,7 @@ def deposit(source_account_id, amount):
         
         if source_account:
             
-            if source_account.status == "closed":
+            if source_account.status == Status.CLOSED.value:
                 errors["account_status"] = "This account was closed so you cannot deposit money."
         
         if errors:
@@ -63,7 +64,7 @@ def deposit(source_account_id, amount):
             }
         
         source_account.deposit(amount)
-        record_transaction(conn, "Credit", source_account_id, amount)
+        record_transaction(conn, TransactionType.CREDIT.value, source_account_id, amount)
 
         conn.commit()
 
@@ -106,7 +107,7 @@ def withdraw(source_account_id, amount):
             }
         
         source_account.withdraw(amount)
-        record_transaction(conn, "Debit", source_account_id, amount)
+        record_transaction(conn, TransactionType.DEBIT.value, source_account_id, amount)
 
         conn.commit()
 
@@ -146,10 +147,10 @@ def transfer(source_account_id, target_account_id, amount):
             if int(target_account_id) == int(source_account_id):
                 errors["account_mismatch"] = "You cannot tranfer money to same account."
             
-            if source_account.status != "active":
+            if source_account.status != Status.ACTIVE.value:
                 errors["source_account_status"] = "Source account is not active!"
             
-            if target_account.status != "active":
+            if target_account.status != Status.ACTIVE.value:
                 errors["target_account_status"] = "Target account is not active!"
             
             ok, result = valid_amount(amount, source_account.balance)

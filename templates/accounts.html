@@ -1,13 +1,33 @@
 {% extends "base.html" %}
 
-{% block title %}My Accounts{% endblock %}
+{% block title %}Accounts Dashboard{% endblock %}
 
 {% block content %}
 <div class="accounts-container">
+    {% if errors %}
+    {% for error in errors.values() %}
+    <p class="error-msg">{{ error }}</p>
+    {% endfor %}
+    {% else %}
+
+    <div class="flash-msg">
+        <div class="cross">
+            <i class="fa-solid fa-xmark"></i>
+        </div>
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        {% for message in messages %}
+        <p class="error-msg">{{ message }}</p>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+    </div>
+
     <h2>My Accounts</h2>
     <p>Here you can view all your accounts.</p>
     {% for account in accounts %}
-    <div class="{% if account.account_id == session.get('current_account_id') %}active{% else %}account-card{% endif %}">
+    {% if account.status != "closed" %}
+    <div class="account-card{% if account.account_id == session.get('current_account_id') %} active{% endif %}">
         <strong>Customer ID:</strong>
         <p> {{ account.customer_id }}</p>
         <strong>Account ID:</strong>
@@ -21,9 +41,22 @@
         <strong>Created Time:</strong>
         <p> {{ account.timestamp | format_time }}</p>
         {% if account.account_id == session.get("current_account_id") %}
-        <button disabled>This is your current account.</button>
+        <button disabled>This is your current account</button>
+        {% else %}
+        <a href="{{ url_for('account.use_account', acc_id=account.account_id) }}">
+            <button>Use this Account(the transactions will be through this account)</button>
+        </a>
         {% endif %}
+
+        <a href="{{ url_for('account.close_account', acc_id=account.account_id) }}">
+            <button>Close this account</button>
+        </a>
     </div>
+    {% endif %}
     {% endfor %}
+    <a href="{{ url_for('account.open_account') }}">
+        <button id="open-account-btn">Open a New account</button>
+    </a>
+    {% endif %}
 </div>
 {% endblock %}

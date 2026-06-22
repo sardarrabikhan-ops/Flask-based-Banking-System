@@ -13,7 +13,8 @@ from app.repositories import (
     update_failed_attempts,
     reset_failed_attempts_and_lock_until,
     create_customer, 
-    create_account
+    create_account,
+    profile_info
     )
 from app.utils.security import check_password
 from app.utils.general_utils import sec_min_hour, lock_customer
@@ -23,6 +24,8 @@ from app.utils.validators import (
     valid_phone, 
     valid_username, 
     valid_confirm_password)
+
+from constants import Status
 
 def register(firstname, lastname, email, phone, password, confirm_password):
     conn =  None
@@ -89,7 +92,7 @@ def login(email, password):
             errors["user_existance"] = "User Not Found!"
             return {"success": False, "data": errors}
         
-        if user.status == "blocked":
+        if user.status == Status.BLOCKED.value:
             errors["account_locked"] = "User is blocked!"
             return {"success": False, "data": errors}
         
@@ -119,12 +122,12 @@ def login(email, password):
             
             elif user.failed_attempts == 15:
                 
-                user.status = "blocked"
+                user.status = Status.BLOCKED.value
                 errors["account_locked"] = "User is blocked!"
                 
-                change_customer_status(conn, user.customer_id, "blocked")
+                change_customer_status(conn, user.customer_id, Status.BLOCKED.value)
                 for account in get_accounts_by_customer_id(conn, user.customer_id):
-                    change_account_status(conn, account.account_id, "blocked")
+                    change_account_status(conn, account.account_id, Status.BLOCKED.value)
             
             elif user.failed_attempts > 7:
                 errors["account_locked"] = "Warning! Too many failed attempts! You can be blocked after too many(15) failed attempts!"
@@ -139,6 +142,41 @@ def login(email, password):
         reset_failed_attempts_and_lock_until(conn, user.customer_id)
         conn.commit()
         return {"success" : True, "data": {"user": user}}
+    
+    except Exception as e:
+        if conn:
+            conn.rollback()
+        raise e
+    
+    finally:
+        if conn:
+            conn.close()
+
+
+def profile(customer_id):
+    conn = None
+    try:
+        conn = get_db_connection()
+
+        errors = {}
+
+        user_info = profile_info(conn, customer_id)
+        customer = user_info["customer"]
+        accounts = user_info["accounts"]
+        transactions = user_info["transactions"]
+
+        if not customer:
+            errors["user_existance"] = "User Not Found."
+            return {"success": False, "data": errors}
+        if not accounts:
+            errors["accounts"] = "You have no account."
+        if not transactions:
+            errors["transaction"] = "No Transactions are found."
+        
+        if errors:
+            return {"success": False, "data": errors}
+        
+        return {"success": True, "data": {"customer": customer, "accounts": accounts, "transactions": transactions}}
     
     except Exception as e:
         if conn:

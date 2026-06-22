@@ -1,15 +1,16 @@
 #repositories/transaction_repo.py
 
 from app.models import Transaction
+from constants import TransactionType
 
 def create_transaction(conn, account_id, transaction_type, amount):
         cursor = conn.cursor()
 
         old_balance = cursor.execute('SELECT balance FROM accounts WHERE account_id = ?', (account_id,)).fetchone()["balance"]
         
-        if transaction_type.lower() == "debit":
+        if transaction_type.lower() == TransactionType.DEBIT.value:
             balance_after = old_balance - amount
-        elif transaction_type.lower() == "credit":
+        elif transaction_type.lower() == TransactionType.CREDIT.value:
             balance_after = old_balance + amount
         else:
             raise ValueError("Invalid transaction type. Use 'Debit' or 'Credit'.")

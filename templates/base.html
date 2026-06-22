@@ -6,12 +6,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}{% endblock %}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
     <link rel="icon" href="{{ url_for('static', filename='images/logo.png') }}">
 </head>
 
 <body>
     <header>
         {% include "navbar.html" %}
+        <div class="sidebar">
+            <button id="closebtn">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <a href="{{ url_for('account.accounts') }}"><i class="fa-solid fa-building-columns"></i> Accounts Dashboard</a>
+            <a href="{{ url_for('transaction.history') }}"><i class="fa-solid fa-clock-rotate-left"></i> Transactions History</a>
+            <a href="{{ url_for('account.transfer') }}"><i class="fa-regular fa-paper-plane"></i> Transfer Money</a>
+            <a href="{{ url_for('account.deposit') }}"><i class="fa-solid fa-arrows-down-to-line"></i> deposit Money</a>
+            <a href="{{ url_for('account.withdraw') }}"><i class="fa-solid fa-hand-holding-dollar"></i> Withdraw Money</a>
+            <div class="user-menu">
+                <button id="userbtn">
+                    <i class="fa-solid fa-circle-user"></i>
+                    <span>{{ session.fullname }}</span>
+                    <i class="fa-solid fa-chevron-up"></i>
+                </button>
+                <div class="dropdown-menu">
+                    <a href="{{ url_for('customer.dashboard') }}"><i class="fa-solid fa-chart-line"></i>Dashboard</a>
+                    <a href="{{ url_for('account.open_account') }}"><i class="fa-solid fa-building-columns"></i> Open Account</a>
+                    <a href="{{ url_for('customer.profile') }}"><i class="fa-solid fa-circle-user"></i>Profile</a>
+                    <a href="{{ url_for('auth.logout') }}"><i class="fa-solid fa-arrow-right-from-bracket"></i> Logout</a>
+                </div>
+            </div>
+        </div>
     </header>
     <main>
         {% block content %}
@@ -20,6 +45,7 @@
     <footer>
         {% include "footer.html" %}
     </footer>
+    <script src="../static/JS/script.js"></script>
 </body>
 
 </html>

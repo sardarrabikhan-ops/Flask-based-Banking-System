@@ -1,5 +1,6 @@
 from flask import Blueprint, request, redirect, url_for, render_template, session
 from app.services import auth_service
+from constants import CURRENT_ACCOUNT_ID, CUSTOMER_ID, FULL_NAME
 
 auth_bp = Blueprint("auth", __name__)
 
@@ -10,18 +11,18 @@ def login():
     if request.method == "POST":
         email = request.form.get("email")
         password = request.form.get("password")
-        remember_me = request.form.get("remember-me")
+        remember_me = request.form.get("remember-me", None)
 
         result = auth_service.login(email, password)
 
         if result["success"]:
-            session["customer_id"] = result["data"]["user"].customer_id
-            session["firstname"] = result["data"]['user'].firstname
+            session[CUSTOMER_ID] = result["data"]["user"].customer_id
+            session[FULL_NAME] = f"{result["data"]['user'].firstname} {result["data"]['user'].lastname}"
             
             session.permanent = remember_me is not None
 
-            if session.get("current_account_id") is None:
-                return redirect(url_for("account.select_account"))
+            if session.get(CURRENT_ACCOUNT_ID) is None:
+                return redirect(url_for("account.accounts"))
             
             return redirect(url_for("customer.dashboard"))
         

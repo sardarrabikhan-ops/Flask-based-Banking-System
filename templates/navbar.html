@@ -9,37 +9,42 @@
 
 <body>
     <nav class="navbar">
-        <ul>
+        <button id="menubtn"><i class="fa-solid fa-bars"></i></button>
 
-            <li>
-                <a href="{{ url_for('customer.dashboard') }}">Dashboard</a>
-            </li>
+        <div class="line"></div>
 
-            <div class="line"></div>
+        <div class="between">
+            <ul>
 
-            <li>
-                <a href="{{ url_for('account.accounts') }}">Accounts</a>
-            </li>
+                <li>
+                    <img src="{{ url_for('static', filename='images/logo.png') }}" id="logo" alt="MM ARMS BANK">
+                </li>
 
-            <div class="line"></div>
+                <li>
+                    <h3>MM ARMS BANK</h3>
+                </li>
 
-            <li>
-                <a href="{{ url_for('transaction.history') }}">Transactions</a>
-            </li>
+                <li>
+                    <h4>Account #{{ session.current_account_id }}</h4>
+                </li>
 
-            <div class="line"></div>
+                <li>
+                    <a href="{{ url_for('auth.logout') }}">
+                        Logout
+                    </a>
+                </li>
 
-            <li>
-                <a href="{{ url_for('account.transfer') }}">Transfer</a>
-            </li>
+            </ul>
+        </div>
 
-            <div class="line"></div>
+        <div class="line"></div>
 
-            <li>
-                <a href="{{ url_for('auth.logout') }}" id="button">Logout</a>
-            </li>
+        <a href="{{ url_for('customer.profile') }}">
+            <button id="profile">
+                <i class="fa-solid fa-circle-user"></i>
+            </button>
+        </a>
 
-        </ul>
     </nav>
 </body>
 
