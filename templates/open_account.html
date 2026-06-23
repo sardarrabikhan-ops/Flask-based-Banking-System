@@ -1,5 +1,11 @@
 {% extends "base.html" %}
 
+{% block title %}Open Account Form{% endblock %}
+
+{% block stylesheet %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/فہرمس.css') }}">
+{% endblock %}
+
 {% block content %}
 <form action="{{ url_for('account.open_account') }}" method="post" class="open-account-form">
     <label for="acc_type">Select Account Type:</label>

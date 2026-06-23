@@ -1,6 +1,9 @@
 {% extends "base.html" %}
 
 {% block title %}Accounts Dashboard{% endblock %}
+{% block stylesheet %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/customer.css') }}">
+{% endblock %}
 
 {% block content %}
 <div class="accounts-container">

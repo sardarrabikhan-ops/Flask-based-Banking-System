@@ -1,0 +1,143 @@
+* {
+    font-family: sans-serif;
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+.open-account-form {
+    height: 70vh;
+    width: 50vw;
+    background-color: #ccc;
+    border: 1px solid #555;
+    border-radius: 10px;
+    margin: 150px auto 50px;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 50px;
+}
+
+.open-account-form label {
+    font-size: 24px;
+    font-weight: 100;
+    color: #111;
+    text-align: center;
+}
+
+#acc_type {
+    width: 60%;
+    height: 30px;
+    background-color: #fff;
+    border: 1px solid #777;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+.open-account-form button {
+    width: 60%;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    text-align: center;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-align: center;
+}
+
+.open-account-form button:hover {
+    background-color: #0056b3;
+    transform: scale(0.98);
+}
+
+.transfer-form {
+    height: 70vh;
+    width: 50vw;
+    background-color: #bbb;
+    border: 1px solid #555;
+    border-radius: 10px;
+    margin: 150px auto 50px;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+}
+
+.transfer-form .input-group {
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+    padding: 5px;
+    gap: 10px;
+}
+
+.transfer-form .input-group input {
+    height: 30px;
+    border: 1px solid #777;
+    border-radius: 5px;
+    background-color: #fff;
+    padding: 5px;
+}
+
+.transfer-form button,
+.deposit-form button,
+.withdraw-form button {
+    width: 60%;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    text-align: center;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.transfer-form button:hover,
+.deposit-form button:hover,
+.withdraw-form button:hover {
+    background-color: #0056b3;
+    transform: scale(0.98);
+}
+
+.deposit-form,
+.withdraw-form {
+    height: 55vh;
+    width: 50vw;
+    background-color: #bbb;
+    border: 1px solid #555;
+    border-radius: 20px;
+    margin: 250px auto 100px;
+    padding: 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 50px;
+}
+
+.deposit-form .input-group,
+.withdraw-form .input-group {
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    gap: 10px;
+}
+
+.deposit-form .input-group input,
+.withdraw-form .input-group input {
+    height: 40px;
+    border: 1px solid #777;
+    border-radius: 10px;
+    background-color: #fff;
+    padding: 8px;
+}
+
+a {
+    text-decoration: none;
+}

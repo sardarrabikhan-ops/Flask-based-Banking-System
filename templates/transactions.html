@@ -2,6 +2,10 @@
 
 {% block title %}Transaction History{% endblock %}
 
+{% block stylesheet %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/customer.css') }}">
+{% endblock %}
+
 {% block content %}
 <div class="transactions-header">
     <h2>Transaction History</h2>

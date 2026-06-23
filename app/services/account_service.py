@@ -33,7 +33,7 @@ def close_account(account_id):
 
         if not account:
             errors["account_existance"] = "Account Not found."
-        if account.balance != 0:
+        elif account.balance != 0:
             errors["balance_existance"] = "The account caontain some balance, trnasfer/withdraw maoney to close this account."
 
         if errors:

@@ -12,11 +12,11 @@ account_bp = Blueprint("account", __name__)
 def accounts():
     customer_id = session.get(CUSTOMER_ID)
     result = account_service.get_accounts_for_customer(customer_id)
+    
+    accounts = result["data"]["accounts"]
 
     if not result["success"]:
         return render_template("accounts.html", errors=result["data"], accounts=accounts)
-
-    accounts = result["data"]["accounts"]
 
     return render_template(
         "accounts.html",

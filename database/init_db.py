@@ -28,7 +28,7 @@ CREATE TABLE IF NOT EXISTS accounts (
     customer_id INTEGER NOT NULL,
     account_type TEXT NOT NULL,
     status TEXT NOT NULL DEFAULT 'active',
-    balance REAL DEFAULT 0.0,
+    balance Decimal DEFAULT 0.0,
     timestamp INTEGER NOT NULL DEFAULT (CAST(strftime('%s', 'now') AS INTEGER)),
     
     FOREIGN KEY (customer_id)

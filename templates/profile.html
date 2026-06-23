@@ -1,6 +1,11 @@
 {% extends "base.html" %}
 
 {% block title %}Profile{% endblock %}
+
+{% block stylesheet %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/customer.css') }}">
+{% endblock %}
+
 {% block content %}
 {% if errors %}
 {% for error in errors %}
@@ -17,9 +22,9 @@
         <strong>Phone Number:</strong>
         <p>{{ data.customer.phone }}</p>
     </div>
-    
+
     <div class="hor-line"></div>
-    
+
     <div class="accounts">
         <h3>Accounts</h3>
         {% for acc in data.accounts %}
@@ -35,9 +40,9 @@
         {% endif %}
         {% endfor %}
     </div>
-    
+
     <div class="hor-line"></div>
-    
+
     <div class="transactions">
         <h3>Recent Transactions</h3>
         {% for t in data.transactions %}
