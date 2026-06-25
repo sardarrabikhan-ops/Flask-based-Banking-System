@@ -44,7 +44,7 @@ def deposit(source_account_id, amount):
         errors = {}
         
         if not source_account:
-            errors["source_account"] = "html will handle it."
+            errors["source_account"] = "Account not found, Please select an account."
         
         if amount <= 0:
             errors["amount"] = "Amount must be greater than zero."
@@ -93,7 +93,7 @@ def withdraw(source_account_id, amount):
         errors = {}
         
         if not source_account:
-            errors["source_account"] = "html will handle it."
+            errors["source_account"] = "Account not found, Please select an account."
         
         if source_account:
             ok, result = valid_amount(amount, source_account.balance)
@@ -137,7 +137,7 @@ def transfer(source_account_id, target_account_id, amount):
         errors = {}
         
         if not source_account:
-            errors["source_account"] = "html will handle it."
+            errors["source_account"] = "Account not found, Please select an account."
         
         if not target_account:
             errors["target_account"] = "Target account not found."
@@ -187,10 +187,18 @@ def transactions(customer_id):
         conn = get_db_connection()
         accounts = get_accounts_by_customer_id(conn, customer_id)
 
-        transactions = []
+        total_transactions = []
         for acc in accounts:
-            transactions.append(get_transaction_history(conn, acc.account_id))
-        return transactions
+
+            total_transactions.append({
+                "account": acc,
+                "transactions": get_transaction_history(
+                    conn,
+                    acc.account_id
+                )
+            })
+
+        return total_transactions
     
     except Exception as e:
         if conn:

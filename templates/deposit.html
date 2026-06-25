@@ -2,10 +2,6 @@
 
 {% block title %}Deposit Money{% endblock %}
 
-{% block stylesheet %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/forms.css') }}">
-{% endblock %}
-
 {% block content %}
 
 <form action="{{ url_for('account.deposit') }}" method="post">
@@ -20,8 +16,7 @@
         </div>
 
         {% if errors.source_account %}
-        <p class="error-msg">You have not selcted account. Please <a href="{{ url_for('account.accounts') }}">select an
-                account</a> first.</p>
+        <p class="error-msg">{{ errors.source_account }}</p>
         {% endif %}
 
         {% if errors.source_account_status %}

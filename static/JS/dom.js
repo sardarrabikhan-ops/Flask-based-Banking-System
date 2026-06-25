@@ -1,0 +1,25 @@
+export const DOM = {
+    signupForm : document.querySelector(".signup-form"),
+    firstName: document.querySelector("#firstname"),
+    firstNameError: document.querySelector("#firstname-error"),
+    lastName: document.querySelector("#lastname"),
+    lastNameError: document.querySelector("#lastname-error"),
+    email: document.querySelector("#email"),
+    emailError: document.querySelector("#email-error"),
+    password: document.querySelector("#password"),
+    passwordError: document.querySelector("#pass-error"),
+    confirmPassword: document.querySelector("#confirm-password"),
+    confirmPasswordError: document.querySelector("#confirm-password-error"),
+    phone: document.querySelector("#phone"),
+    phoneError: document.querySelector("#phone-error"),
+    signupBtn: document.querySelector("#signup-btn"),
+    
+    amounts: document.querySelectorAll(".amount"),
+    sidebar: document.querySelector(".sidebar"),
+    closeBtn: document.querySelector("#closebtn"),
+    menuBtn: document.querySelector("#menubtn"),
+    userBtn: document.querySelector("#userbtn"),
+    dropdownMenu: document.querySelector(".dropdown-menu"),
+    flashMsgs: document.querySelectorAll(".flash-msg"),
+    crosses: document.querySelectorAll(".cross")
+};

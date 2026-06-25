@@ -5,12 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}{% endblock %}</title>
-    <link rel="icon" href="{{ url_for('static', filename='images/logo.png') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/auth.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='images/logo.png') }}">
 </head>
 
 <body id="first-page">
     {% block content %}
     {% endblock %}
-    <script src="../static/JS/script.js"></script>
+    <script type="module" src="{{url_for('static', filename='js/main.js')}}"></script>
 </body>

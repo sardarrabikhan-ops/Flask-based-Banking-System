@@ -1,9 +1,6 @@
 {% extends "base.html" %}
 
 {% block title %}Accounts Dashboard{% endblock %}
-{% block stylesheet %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/customer.css') }}">
-{% endblock %}
 
 {% block content %}
 <div class="accounts-container">
@@ -13,23 +10,20 @@
     {% endfor %}
     {% else %}
 
+    {% with messages = get_flashed_messages() %}
+    {% for message in messages %}
     <div class="flash-msg">
         <div class="cross">
             <i class="fa-solid fa-xmark"></i>
         </div>
-        {% with messages = get_flashed_messages() %}
-        {% if messages %}
-        {% for message in messages %}
         <p class="error-msg">{{ message }}</p>
-        {% endfor %}
-        {% endif %}
-        {% endwith %}
     </div>
+    {% endfor %}
+    {% endwith %}
 
     <h2>My Accounts</h2>
     <p>Here you can view all your accounts.</p>
     {% for account in accounts %}
-    {% if account.status != "closed" %}
     <div class="account-card{% if account.account_id == session.get('current_account_id') %} active{% endif %}">
         <strong>Customer ID:</strong>
         <p> {{ account.customer_id }}</p>
@@ -43,6 +37,7 @@
         <p> {{ account.balance }}</p>
         <strong>Created Time:</strong>
         <p> {{ account.timestamp | format_time }}</p>
+        {% if account.status != "closed" %}
         {% if account.account_id == session.get("current_account_id") %}
         <button disabled>This is your current account</button>
         {% else %}
@@ -54,8 +49,8 @@
         <a href="{{ url_for('account.close_account', acc_id=account.account_id) }}">
             <button>Close this account</button>
         </a>
+        {% endif %}
     </div>
-    {% endif %}
     {% endfor %}
     <a href="{{ url_for('account.open_account') }}">
         <button id="open-account-btn">Open a New account</button>

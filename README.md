@@ -115,12 +115,8 @@ http://127.0.0.1:5000
 
 ## Future Improvements
 
-- Add JWT / stronger authentication system
+- Add stronger authentication system
 - Improve UI/UX design
-- Add admin dashboard
-- Email or SMS notifications
-- Better logging and audit system
-- API version for mobile apps
 
 ---
 

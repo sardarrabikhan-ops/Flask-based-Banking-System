@@ -26,7 +26,7 @@ Login | MM ARMS BANK
         <form action="{{ url_for('auth.login') }}" method="POST" class="login-form">
             <section class="inp-box">
                 
-                <input type="email" name="email" class="input" placeholder=" Email" required>
+                <input type="email" name="email" class="input" placeholder=" Email" required value="{{ request.form.get('email', '') }}">
                 {% if errors.email %}
                 <p class="error-msg">{{ errors.email }}</p>
                 {% endif %}
@@ -46,7 +46,7 @@ Login | MM ARMS BANK
                 {% endif %}
                 
                 {% if errors.account_locked %}
-                <p class="error-msg">{{ errors.account_locked }}</p>
+                <p class="error-msg" id="account-locked">{{ errors.account_locked }}</p>
                 {% endif %}
             </section>
             <div class="button">

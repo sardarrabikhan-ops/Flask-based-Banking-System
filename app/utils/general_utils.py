@@ -15,6 +15,6 @@ def sec_min_hour(value):
         return f"{hours} hours"
 
 def lock_customer(conn, user, duration):
-    lock_until = (datetime.now() + duration).isoformat()
+    lock_until = int((datetime.now() + duration).timestamp())
     user.lock_until = lock_until
     update_lock_until(conn, user.customer_id, lock_until)

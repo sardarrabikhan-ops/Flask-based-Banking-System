@@ -88,7 +88,7 @@ def update_lock_until(conn, customer_id, lock_until):
 
     cursor.execute('''
         UPDATE customers
-        SET lock_until = lock_until + ?
+        SET lock_until = ?
         WHERE customer_id = ?
     ''', (lock_until, customer_id))
     

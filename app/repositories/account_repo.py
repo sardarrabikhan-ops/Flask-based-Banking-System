@@ -43,9 +43,7 @@ def get_accounts_by_customer_id(conn, customer_id):
 
     rows = cursor.execute('SELECT * FROM accounts WHERE customer_id = ?', (customer_id,)).fetchall()
     
-    accounts = [Account.from_row(row) for row in rows]
-    
-    return accounts if accounts else []
+    return [Account.from_row(row) for row in rows]
 
 def get_balance(conn, account_id):
     cursor = conn.cursor()

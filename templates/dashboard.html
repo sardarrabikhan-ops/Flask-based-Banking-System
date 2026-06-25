@@ -2,10 +2,6 @@
 
 {% block title %}Dashboard{% endblock %}
 
-{% block stylesheet %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/customer.css') }}">
-{% endblock %}
-
 {% block content %}
 <h1 class="bank-name">MM ARMS BANK</h1>
 
@@ -54,18 +50,19 @@
 
         </ul>
 
+        {% with messages = get_flashed_messages() %}
         {% for msg in messages %}
         <div class="flash-msg">
             <div class="cross">
                 <i class="fa-solid fa-xmark"></i>
             </div>
-            {% with messages = get_flashed_messages() %}
+
             <div class="success-msg">
                 {{ msg }}
             </div>
-            {% endwith %}
         </div>
         {% endfor %}
+        {% endwith %}
     </div>
 </section>
 {% endblock %}

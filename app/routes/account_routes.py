@@ -1,14 +1,16 @@
 #routes/account routes
 
-from flask import Blueprint, request, redirect, url_for, render_template, session, flash
+from flask import Blueprint, request, redirect, url_for, render_template, session, flash, abort
 from app.services import transaction_service, account_service
 from constants import CURRENT_ACCOUNT_ID, CUSTOMER_ID
+from app.utils.decorators import login_required, active_account_required, account_owner_required
 
 account_bp = Blueprint("account", __name__)
 
 
 #View Accounts
 @account_bp.route("/accounts-dashboard")
+@login_required
 def accounts():
     customer_id = session.get(CUSTOMER_ID)
     result = account_service.get_accounts_for_customer(customer_id)
@@ -26,12 +28,16 @@ def accounts():
 
 #use account
 @account_bp.route("/use-account/<int:acc_id>")
+@login_required
+@account_owner_required
 def use_account(acc_id):
     session[CURRENT_ACCOUNT_ID] = acc_id
     return redirect(url_for("customer.dashboard"))
 
 # close account
 @account_bp.route("/close-account/<int:acc_id>")
+@login_required
+@account_owner_required
 def close_account(acc_id):
     result = account_service.close_account(acc_id)
     
@@ -45,6 +51,7 @@ def close_account(acc_id):
 
 #open account
 @account_bp.route("/open-account", methods=["GET", "POST"])
+@login_required
 def open_account():
     if request.method == "POST":
         customer_id = session.get(CUSTOMER_ID)
@@ -57,18 +64,19 @@ def open_account():
 
 #transfer
 @account_bp.route("/transfer", methods=["GET", "POST"])
+@login_required
+@active_account_required
 def transfer():
     if request.method == "POST":
         
         source_account_id = session.get(CURRENT_ACCOUNT_ID)
         target_account_id = request.form.get("target_account_id")
-        amount = float(request.form.get("amount"))
+        amount = request.form.get("amount")
         
         result = transaction_service.transfer(source_account_id, target_account_id, amount)
         
         if result["success"]:
-            flash(result["data"]["msg"])
-            flash(f"Your new balance is {result["data"]["new_balance"]}")
+            flash(f"Your new balance is {result["data"]["new_balance"]}\n{result["data"]["msg"]}")
             return redirect(url_for("customer.dashboard"))
         
         else:
@@ -77,17 +85,18 @@ def transfer():
 
 #deposit
 @account_bp.route("/deposit", methods=["GET", "POST"])
+@login_required
+@active_account_required
 def deposit():
     if request.method == "POST":
 
         target_account_id = session.get(CURRENT_ACCOUNT_ID)
-        amount = float(request.form.get("amount"))
+        amount = request.form.get("amount")
 
         result = transaction_service.deposit(target_account_id, amount)
 
         if result["success"]:
-            flash(result["data"]["msg"])
-            flash(f"Your new balance is {result["data"]["new_balance"]}")
+            flash(f"Your new balance is {result["data"]["new_balance"]}\n{result["data"]["msg"]}")
             return redirect(url_for("customer.dashboard"))
         
         else:
@@ -96,17 +105,18 @@ def deposit():
 
 #withdraw
 @account_bp.route("/withdraw", methods=["GET", "POST"])
+@login_required
+@active_account_required
 def withdraw():
     if request.method == "POST":
 
         source_account_id = session.get(CURRENT_ACCOUNT_ID)
-        amount = float(request.form.get("amount"))
+        amount = request.form.get("amount")
 
         result = transaction_service.withdraw(source_account_id, amount)
 
         if result["success"]:
-            flash(result["data"]["msg"])
-            flash(f"Your new balance is {result["data"]["new_balance"]}")
+            flash(f"Your new balance is {result["data"]["new_balance"]}\n{result["data"]["msg"]}")
             return redirect(url_for("customer.dashboard"))
         
         else:

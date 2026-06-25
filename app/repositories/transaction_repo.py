@@ -37,5 +37,4 @@ def get_transaction_history(conn, account_id):
 
         rows = cursor.execute('SELECT * FROM transactions WHERE account_id = ? ORDER BY timestamp DESC', (account_id,)).fetchall()
         
-        transactions = [Transaction.from_row(row) for row in rows]
-        return transactions
+        return [Transaction.from_row(row) for row in rows]

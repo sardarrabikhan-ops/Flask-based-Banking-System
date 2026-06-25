@@ -2,49 +2,42 @@
 
 {% block title %}Transaction History{% endblock %}
 
-{% block stylesheet %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/customer.css') }}">
-{% endblock %}
-
 {% block content %}
 <div class="transactions-header">
     <h2>Transaction History</h2>
     <p>Here you can view all your transactions for the selected account.</p>
 </div>
-{% for account in transactions %}
+{% for item in transactions %}
 <div class="transactions-container">
-    <div class="transaction-card">
-        <table class="transactions-table">
-            <thead>
-                <tr>
-                    <th>Transaction ID</th>
-                    <th>Account ID</th>
-                    <th>Amount</th>
-                    <th>Balance After</th>
-                    <th>Type</th>
-                    <th>Created Time</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% if not account %}
-                <tr>
-                    <td colspan="6">No transactions found for the selected account.</td>
-                </tr>
-                {% else %}
-                {% for transaction in account %}
-                <tr>
-                    <td>{{ transaction.transaction_id }}</td>
-                    <td>{{ transaction.account_id }}</td>
-                    <td>{{ transaction.amount }}</td>
-                    <td>{{ transaction.balance_after }}</td>
-                    <td>{{ transaction.transaction_type }}</td>
-                    <td>{{ transaction.timestamp | format_time }}</td>
-                </tr>
-                {% endfor %}
-                {% endif %}
-            </tbody>
-        </table>
-    </div>
+    <table class="transactions-table">
+        <caption>Account#{{ item.account.account_id }}</caption>
+        <thead>
+            <tr>
+                <th>Transaction ID</th>
+                <th>Amount</th>
+                <th>Balance After</th>
+                <th>Type</th>
+                <th>Created Time</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if not item.transactions %}
+            <tr>
+                <td colspan="6">No transactions found for the selected account.</td>
+            </tr>
+            {% else %}
+            {% for transaction in item.transactions %}
+            <tr>
+                <td>{{ transaction.transaction_id }}</td>
+                <td>{{ transaction.amount }}</td>
+                <td>{{ transaction.balance_after }}</td>
+                <td>{{ transaction.transaction_type }}</td>
+                <td>{{ transaction.timestamp | format_time }}</td>
+            </tr>
+            {% endfor %}
+            {% endif %}
+        </tbody>
+    </table>
 </div>
 {% endfor %}
 {% endblock %}
