@@ -57,8 +57,8 @@ def valid_amount(amount, source_balance):
     try:
         amount = float(amount)
         
-        if amount <= 0:
-            return False, {"field": "amount", "msg": "Amount must be more than zero."}
+        if amount < 0.01:
+            return False, {"field": "amount", "msg": "Amount must be more than 0.01."}
         
         if amount > source_balance:
             return False, {"field": "amount", "msg": "Insufficient funds."}

@@ -89,7 +89,7 @@ def login(email, password):
         user = get_customer_by_email(conn, email)
         
         if user is None:
-            errors["user_existance"] = "User Not Found!"
+            errors["user_existence"] = "User Not Found!"
             return {"success": False, "data": errors}
         
         if user.status == Status.BLOCKED.value:
@@ -110,15 +110,15 @@ def login(email, password):
             new_failed_attempts = update_failed_attempts(conn, user.customer_id, 1)
             user.failed_attempts = new_failed_attempts
             LOCKS = {
-                3: timedelta(seconds=30),
-                5: timedelta(minutes=5),
-                7: timedelta(minutes=30),
-                10: timedelta(hours=1)
+                3: [timedelta(seconds=30), 30],
+                5: [timedelta(minutes=5), 300],
+                7: [timedelta(minutes=30), 1800],
+                10: [timedelta(hours=1), 3600]
             }
 
             if user.failed_attempts in LOCKS:
-                lock_customer(conn, user, LOCKS[new_failed_attempts])
-                errors["account_locked"] = f"Account is locked for {LOCKS[new_failed_attempts]}!"
+                lock_customer(conn, user, LOCKS[new_failed_attempts][0])
+                errors["account_locked"] = f"Account is locked for {sec_min_hour(int(LOCKS[new_failed_attempts][1]))}!"
             
             elif user.failed_attempts == 15:
                 
@@ -166,7 +166,7 @@ def profile(customer_id):
         transactions = user_info["transactions"]
 
         if not customer:
-            errors["user_existance"] = "User Not Found."
+            errors["user_existence"] = "User Not Found."
             return {"success": False, "data": errors}
         if not accounts:
             errors["accounts"] = "You have no account."

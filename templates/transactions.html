@@ -10,7 +10,7 @@
 {% for item in transactions %}
 <div class="transactions-container">
     <table class="transactions-table">
-        <caption>Account#{{ item.account.account_id }}</caption>
+        <caption>Account#{{ item.account.account_id }} ({{ item.account.status }})</caption>
         <thead>
             <tr>
                 <th>Transaction ID</th>

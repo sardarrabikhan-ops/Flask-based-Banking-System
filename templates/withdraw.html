@@ -19,6 +19,10 @@
         <p class="error-msg">{{ errors.source_account }}</p>
         {% endif %}
 
+        {% if errors.source_account_status %}
+        <p class="error-msg">{{ errors.source_account_status }}</p>
+        {% endif %}
+
         <button type="submit">Withdraw</button>
     </div>
 </form>

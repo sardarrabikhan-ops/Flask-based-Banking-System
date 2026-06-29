@@ -1,3 +1,4 @@
 #database/__init__.py
 
 from .connection import get_db_connection
+from .init_db import init_db

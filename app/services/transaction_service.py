@@ -39,6 +39,8 @@ def deposit(source_account_id, amount):
     try:
         conn = get_db_connection()
 
+        amount = float(amount)
+
         source_account = get_account_by_account_id(conn, source_account_id)
 
         errors = {}
@@ -46,8 +48,8 @@ def deposit(source_account_id, amount):
         if not source_account:
             errors["source_account"] = "Account not found, Please select an account."
         
-        if amount <= 0:
-            errors["amount"] = "Amount must be greater than zero."
+        if amount < 0.01:
+            errors["amount"] = "Amount must be more than 0.01."
         
         elif amount > 100000:
             errors["amount"] = "You cannot deposit more than 100 thousand."
@@ -55,7 +57,7 @@ def deposit(source_account_id, amount):
         if source_account:
             
             if source_account.status == Status.CLOSED.value:
-                errors["account_status"] = "This account was closed so you cannot deposit money."
+                errors["source_account_status"] = "This account was closed so you cannot deposit money."
         
         if errors:
             return {
@@ -88,12 +90,18 @@ def withdraw(source_account_id, amount):
     try:
         conn = get_db_connection()
 
+        amount = float(amount)
+
         source_account = get_account_by_account_id(conn, source_account_id)
 
         errors = {}
         
         if not source_account:
             errors["source_account"] = "Account not found, Please select an account."
+            return {"success": False, "data": errors}
+        
+        if source_account.status != Status.ACTIVE.value:
+            errors["source_account_status"] = "Source account is not active!"
         
         if source_account:
             ok, result = valid_amount(amount, source_account.balance)
@@ -130,6 +138,8 @@ def transfer(source_account_id, target_account_id, amount):
 
     try:
         conn = get_db_connection()
+
+        amount = float(amount)
 
         source_account = get_account_by_account_id(conn, source_account_id)
         target_account = get_account_by_account_id(conn, target_account_id)

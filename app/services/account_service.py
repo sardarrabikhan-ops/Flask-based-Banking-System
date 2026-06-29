@@ -32,9 +32,9 @@ def close_account(account_id):
         account = get_account_by_account_id(conn, account_id)
 
         if not account:
-            errors["account_existance"] = "Account Not found."
+            errors["account_existence"] = "Account Not found."
         elif account.balance != 0:
-            errors["balance_existance"] = "The account caontain some balance, trnasfer/withdraw maoney to close this account."
+            errors["balance_existence"] = "The account contain some balance, tansfer/withdraw money to close this account."
 
         if errors:
             return {"success": False, "data": errors}
